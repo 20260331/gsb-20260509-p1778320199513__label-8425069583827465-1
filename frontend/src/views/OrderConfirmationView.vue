@@ -53,10 +53,10 @@
           <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
             <span class="w-1 h-8 bg-gradient-to-b from-blue-600 to-indigo-600 rounded-full block"></span>
             商品清单
-            <span class="text-sm font-normal text-gray-500 ml-2">共 {{ cartStore.totalItems }} 件</span>
+            <span class="text-sm font-normal text-gray-500 ml-2">共 {{ selectedTotalItems }} 件</span>
           </h2>
           <div class="space-y-6">
-            <div v-for="item in cartStore.items" :key="item.cartItemId || item.id" class="flex gap-4 items-center border-b border-gray-100 last:border-0 pb-6 last:pb-0">
+            <div v-for="item in selectedItems" :key="item.cartItemId || item.id" class="flex gap-4 items-center border-b border-gray-100 last:border-0 pb-6 last:pb-0">
               <div class="w-20 h-20 bg-white border border-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                 <img :src="item.image" :alt="item.name" class="w-full h-full object-contain p-2">
               </div>
@@ -125,8 +125,8 @@
           </h2>
           <div class="space-y-4 mb-8 border-b border-gray-100 pb-8">
             <div class="flex justify-between text-gray-600">
-              <span>商品小计 ({{ cartStore.totalItems }}件)</span>
-              <span class="font-medium">¥{{ cartStore.totalPrice.toFixed(2) }}</span>
+              <span>商品小计 ({{ selectedTotalItems }}件)</span>
+              <span class="font-medium">¥{{ selectedTotalPrice.toFixed(2) }}</span>
             </div>
             <div class="flex justify-between text-gray-600">
               <span>运费</span>
@@ -141,7 +141,7 @@
           </div>
           <div class="flex justify-between items-end mb-8">
             <span class="font-bold text-xl text-gray-800">应付金额</span>
-            <span class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">¥{{ cartStore.finalPrice.toFixed(2) }}</span>
+            <span class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">¥{{ selectedFinalPrice.toFixed(2) }}</span>
           </div>
           <button @click="submitOrder" :disabled="isSubmitting" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-xl hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 font-bold text-lg transform hover:-translate-y-1 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center">
              <span v-if="isSubmitting" class="mr-2">
@@ -185,10 +185,12 @@
 import { ref, inject, onMounted, computed } from 'vue'
 import { useCartStore } from '../store/cart'
 import { useUserStore } from '../store/user'
+import { useOrderStore } from '../store/order'
 import { useRouter } from 'vue-router'
 
 const cartStore = useCartStore()
 const userStore = useUserStore()
+const orderStore = useOrderStore()
 const router = useRouter()
 const toast = inject('toast')
 
@@ -204,6 +206,11 @@ const form = ref({
 const paymentMethod = ref('wechat')
 const showModal = ref(false)
 const isSubmitting = ref(false)
+
+const selectedItems = computed(() => cartStore.items.filter(item => item.selected))
+const selectedTotalItems = computed(() => selectedItems.value.reduce((acc, item) => acc + item.quantity, 0))
+const selectedTotalPrice = computed(() => selectedItems.value.reduce((acc, item) => acc + item.price * item.quantity, 0))
+const selectedFinalPrice = computed(() => selectedTotalPrice.value - cartStore.totalDiscount)
 
 // Mock Address Data
 const provinces = [
@@ -265,15 +272,22 @@ async function submitOrder() {
   if (isSubmitting.value) return
   isSubmitting.value = true
   
-  // Simulate API call
   await new Promise(resolve => setTimeout(resolve, 1500))
   
+  orderStore.createOrder({
+    items: selectedItems.value,
+    address: form.value,
+    paymentMethod: paymentMethod.value,
+    totalPrice: selectedTotalPrice.value,
+    finalPrice: selectedFinalPrice.value
+  })
+
   isSubmitting.value = false
   showModal.value = true
 }
 
 function finishOrder() {
-  cartStore.clearCart()
+  cartStore.removeSelectedItems()
   showModal.value = false
   router.push('/')
 }

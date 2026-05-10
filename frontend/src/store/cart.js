@@ -69,5 +69,9 @@ export const useCartStore = defineStore('cart', () => {
     items.value = []
   }
 
-  return { items, totalItems, selectedTotalItems, totalPrice, totalDiscount, finalPrice, allSelected, addToCart, removeFromCart, updateQuantity, clearCart, toggleSelection, toggleAllSelection }
+  function removeSelectedItems() {
+    items.value = items.value.filter(item => !item.selected)
+  }
+
+  return { items, totalItems, selectedTotalItems, totalPrice, totalDiscount, finalPrice, allSelected, addToCart, removeFromCart, updateQuantity, clearCart, removeSelectedItems, toggleSelection, toggleAllSelection }
 })
