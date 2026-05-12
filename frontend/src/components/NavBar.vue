@@ -40,6 +40,7 @@
           </template>
           <template v-else>
              <div class="flex items-center space-x-4">
+               <router-link to="/orders" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">我的订单</router-link>
                <span class="text-gray-700 font-medium">用户</span>
                <button @click="logout" class="text-gray-500 hover:text-red-600 transition-colors">退出</button>
              </div>
@@ -75,6 +76,7 @@
           <router-link to="/register" class="block py-2 text-blue-600 font-medium" @click="isMenuOpen = false">注册</router-link>
         </template>
         <template v-else>
+           <router-link to="/orders" class="block py-2 text-gray-600 hover:text-blue-600 border-b border-gray-100" @click="isMenuOpen = false">我的订单</router-link>
            <div class="flex justify-between items-center py-2 border-b border-gray-100">
              <span class="text-gray-600">当前用户</span>
              <button @click="logout" class="text-red-600">退出</button>

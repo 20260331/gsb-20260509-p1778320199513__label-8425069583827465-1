@@ -6,6 +6,8 @@ import CartView from '../views/CartView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import OrderConfirmationView from '../views/OrderConfirmationView.vue'
+import OrderHistoryView from '../views/OrderHistoryView.vue'
+import OrderDetailView from '../views/OrderDetailView.vue'
 import AgreementView from '../views/AgreementView.vue'
 
 const router = createRouter({
@@ -52,6 +54,16 @@ const router = createRouter({
       path: '/checkout',
       name: 'checkout',
       component: OrderConfirmationView
+    },
+    {
+      path: '/orders',
+      name: 'orders',
+      component: OrderHistoryView
+    },
+    {
+      path: '/orders/:id',
+      name: 'order-detail',
+      component: OrderDetailView
     },
     {
       path: '/agreement/:type?',
