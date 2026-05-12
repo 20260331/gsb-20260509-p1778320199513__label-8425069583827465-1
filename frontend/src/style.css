@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@layer base {
+  button, 
+  [type='button'], 
+  [type='reset'], 
+  [type='submit'],
+  [role="button"],
+  select,
+  input[type="checkbox"],
+  input[type="radio"] {
+    cursor: pointer;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+  }
+  .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+  }
+}
