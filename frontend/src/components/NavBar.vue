@@ -40,6 +40,12 @@
           </template>
           <template v-else>
              <div class="flex items-center space-x-4">
+               <router-link to="/orders" class="text-gray-600 hover:text-blue-600 font-medium transition-colors px-3 py-2 rounded-lg hover:bg-gray-50 flex items-center gap-1">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                 </svg>
+                 订单
+               </router-link>
                <span class="text-gray-700 font-medium">用户</span>
                <button @click="logout" class="text-gray-500 hover:text-red-600 transition-colors">退出</button>
              </div>
@@ -75,7 +81,8 @@
           <router-link to="/register" class="block py-2 text-blue-600 font-medium" @click="isMenuOpen = false">注册</router-link>
         </template>
         <template v-else>
-           <div class="flex justify-between items-center py-2 border-b border-gray-100">
+           <router-link to="/orders" class="block py-2 text-gray-600 hover:text-blue-600 border-b border-gray-100" @click="isMenuOpen = false">订单历史</router-link>
+           <div class="flex justify-between items-center py-2">
              <span class="text-gray-600">当前用户</span>
              <button @click="logout" class="text-red-600">退出</button>
            </div>

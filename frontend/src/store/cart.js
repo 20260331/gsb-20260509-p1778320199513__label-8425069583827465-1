@@ -5,6 +5,7 @@ export const useCartStore = defineStore('cart', () => {
   const items = ref([])
 
   const totalItems = computed(() => items.value.reduce((acc, item) => acc + item.quantity, 0))
+  const selectedItems = computed(() => items.value.filter(item => item.selected))
   const selectedTotalItems = computed(() => items.value.reduce((acc, item) => acc + (item.selected ? item.quantity : 0), 0))
   const totalPrice = computed(() => items.value.reduce((acc, item) => acc + (item.selected ? item.price * item.quantity : 0), 0))
   const totalDiscount = computed(() => 0)
@@ -69,5 +70,9 @@ export const useCartStore = defineStore('cart', () => {
     items.value = []
   }
 
-  return { items, totalItems, selectedTotalItems, totalPrice, totalDiscount, finalPrice, allSelected, addToCart, removeFromCart, updateQuantity, clearCart, toggleSelection, toggleAllSelection }
+  function clearSelectedItems() {
+    items.value = items.value.filter(item => !item.selected)
+  }
+
+  return { items, selectedItems, totalItems, selectedTotalItems, totalPrice, totalDiscount, finalPrice, allSelected, addToCart, removeFromCart, updateQuantity, clearCart, clearSelectedItems, toggleSelection, toggleAllSelection }
 })
