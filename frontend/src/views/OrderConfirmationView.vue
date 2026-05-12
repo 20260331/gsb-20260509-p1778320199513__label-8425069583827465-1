@@ -185,10 +185,12 @@
 import { ref, inject, onMounted, computed } from 'vue'
 import { useCartStore } from '../store/cart'
 import { useUserStore } from '../store/user'
+import { useOrderStore } from '../store/order'
 import { useRouter } from 'vue-router'
 
 const cartStore = useCartStore()
 const userStore = useUserStore()
+const orderStore = useOrderStore()
 const router = useRouter()
 const toast = inject('toast')
 
@@ -267,6 +269,17 @@ async function submitOrder() {
   
   // Simulate API call
   await new Promise(resolve => setTimeout(resolve, 1500))
+  
+  // Create order
+  orderStore.createOrder({
+    items: cartStore.items.filter(item => item.selected).length > 0 
+      ? cartStore.items.filter(item => item.selected).map(item => ({ ...item }))
+      : cartStore.items.map(item => ({ ...item })),
+    address: form.value,
+    paymentMethod: paymentMethod.value,
+    totalItems: cartStore.totalItems,
+    totalPrice: cartStore.finalPrice
+  })
   
   isSubmitting.value = false
   showModal.value = true
