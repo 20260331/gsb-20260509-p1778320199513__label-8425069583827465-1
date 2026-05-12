@@ -16,7 +16,7 @@
             </div>
             <span class="font-bold text-gray-700 group-hover:text-blue-600 transition-colors">全选</span>
           </label>
-          <span class="text-sm text-gray-400">已选 {{ cartStore.items.filter(i => i.selected).length }} 件商品</span>
+          <span class="text-sm text-gray-400">已选 {{ cartStore.selectedItems.length }} 件商品</span>
         </div>
 
         <div class="space-y-8">
@@ -99,7 +99,7 @@
             <span class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">¥{{ cartStore.finalPrice.toFixed(2) }}</span>
           </div>
 
-          <button @click="checkout" :disabled="isCheckingOut || cartStore.items.filter(i => i.selected).length === 0" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-xl hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center font-bold text-lg transform hover:-translate-y-1 active:scale-95">
+          <button @click="checkout" :disabled="isCheckingOut || cartStore.selectedItems.length === 0" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 rounded-xl hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center font-bold text-lg transform hover:-translate-y-1 active:scale-95">
             <span v-if="isCheckingOut" class="mr-3">
               <svg class="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

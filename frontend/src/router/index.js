@@ -6,6 +6,7 @@ import CartView from '../views/CartView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import OrderConfirmationView from '../views/OrderConfirmationView.vue'
+import OrderHistoryView from '../views/OrderHistoryView.vue'
 import AgreementView from '../views/AgreementView.vue'
 
 const router = createRouter({
@@ -57,6 +58,11 @@ const router = createRouter({
       path: '/agreement/:type?',
       name: 'agreement',
       component: AgreementView
+    },
+    {
+      path: '/orders',
+      name: 'orders',
+      component: OrderHistoryView
     }
   ]
 })
